@@ -8,3 +8,5 @@ dist/
 !.env.example
 *.log
 启动预览.command
+
+.vercel/
