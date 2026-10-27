@@ -1,5 +1,7 @@
 # The selfish gene
 
+在线访问：[The Selfish Gene](https://wyg124.github.io/the-selfish-gene/) · [公开源码](https://github.com/wyg124/the-selfish-gene)
+
 React + Vite 科普网站。根据用户提供的《自私的基因：40周年增订版》EPUB，保留全书目录、全文、插图、尾注与附录，并提供独立导读和互动。
 
 ## 运行
