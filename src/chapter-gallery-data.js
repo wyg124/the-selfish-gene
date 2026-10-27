@@ -1,0 +1,17 @@
+export const chapterGallery = [
+ {id:'ch01',number:1,title:'为什么会有人呢？',en:'Why Are People?',theme:'演化的视角',hint:'换一个尺度，重新提出生命的问题。',art:'生命之树与琥珀色细胞'},
+ {id:'ch02',number:2,title:'复制因子',en:'The Replicators',theme:'复制与延续',hint:'信息如何复制，生命如何开始。',art:'彼此复制的琥珀分子'},
+ {id:'ch03',number:3,title:'不朽的双螺旋',en:'Immortal Coils',theme:'遗传信息',hint:'一条双螺旋，穿越世代与时间。',art:'乳白与琥珀色DNA双螺旋'},
+ {id:'ch04',number:4,title:'基因机器',en:'The Gene Machine',theme:'身体与行为',hint:'从遗传信息，到感知和行动。',art:'半透明细胞与橙色细胞核'},
+ {id:'ch05',number:5,title:'进犯行为：稳定性和自私的机器',en:'Aggression: Stability and the Selfish Machine',theme:'博弈与稳定',hint:'策略的成败，取决于遇见谁。',art:'对望的琥珀鹰与乳白鸽'},
+ {id:'ch06',number:6,title:'基因种族',en:'Genesmanship',theme:'亲属选择',hint:'同一条复制谱系，存在于不同身体。',art:'分支连接的DNA亲缘网络'},
+ {id:'ch07',number:7,title:'计划生育',en:'Family Planning',theme:'数量与照料',hint:'留下后代，也意味着分配有限资源。',art:'琥珀鸟巢与三枚乳白鸟卵'},
+ {id:'ch08',number:8,title:'代际之战',en:'Battle of the Generations',theme:'亲子与投资',hint:'共享利益的关系，也可能存在分歧。',art:'亲鸟与争取一粒食物的两只幼鸟'},
+ {id:'ch09',number:9,title:'两性战争',en:'Battle of the Sexes',theme:'繁殖与合作',hint:'合作的背后，是不同的成本与选择。',art:'琥珀与乳白色的一对孔雀'},
+ {id:'ch10',number:10,title:'你为我搔痒，我就骑在你的头上',en:'You Scratch My Back, I’ll Ride on Yours',theme:'互惠与共生',hint:'帮助、回报与搭便车，如何共存？',art:'琥珀礁鱼与乳白清洁鱼'},
+ {id:'ch11',number:11,title:'觅母：新的复制因子',en:'Memes: The New Replicators',theme:'文化与传播',hint:'当复制的对象，成为一个想法。',art:'沿着金色波纹传播的对话气泡'},
+ {id:'ch12',number:12,title:'好人终有好报',en:'Nice Guys Finish First',theme:'重复与合作',hint:'下一次相遇，改变这一次的选择。',art:'环形金带环绕的合作握手'},
+ {id:'ch13',number:13,title:'基因的延伸',en:'The Long Reach of the Gene',theme:'延伸的表型',hint:'基因的效应，可以越过身体边界。',art:'海狸、琥珀水坝与玻璃般的水流'},
+ {id:'ch14',number:14,title:'基因决定论与基因选择论',en:'Genetic Determinism and Gene Selectionism',theme:'解释与因果',hint:'分清遗传影响、因果解释与选择单位。',art:'放大镜中显现的DNA'},
+ {id:'ch15',number:15,title:'对于完美化的制约',en:'Constraints on Perfection',theme:'历史与限制',hint:'演化，在历史与现实的边界里发生。',art:'绕过琥珀圆环生长的乳白树木'},
+];
