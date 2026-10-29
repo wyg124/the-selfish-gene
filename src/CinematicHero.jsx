@@ -17,23 +17,24 @@ const smooth=(start,end,value)=>{const x=Math.min(1,Math.max(0,(value-start)/(en
 export default function CinematicHero(){
  const reducedInitial=useRef(matchMedia('(prefers-reduced-motion: reduce)').matches);
  const [reduced,setReduced]=useState(reducedInitial.current),[paused,setPaused]=useState(false),[visible,setVisible]=useState(false),[pageVisible,setPageVisible]=useState(!document.hidden),[ready,setReady]=useState(reducedInitial.current),[phase,setPhase]=useState(reducedInitial.current?'contents':'intro'),[revision,setRevision]=useState(0);
+ const released=useRef(reducedInitial.current);
  const root=useRef(null),time=useRef(reducedInitial.current?duration:0),lastPhase=useRef(phase),loopCount=useRef(0),board=useRef(null),cards=useRef([]);
  function frame(playhead){
    if(!root.current)return;
-   const t=Math.min(Math.max(0,playhead-4),8.4),loopFade=reduced?1:smooth(0,.6,playhead)*(1-smooth(fadeStart,cycleDuration,playhead));
+   const t=released.current?Math.min(Math.max(0,playhead-4),8.4):0,loopFade=reduced?1:smooth(0,.6,playhead)*(released.current?1-smooth(fadeStart,cycleDuration,playhead):1);
    root.current.dataset.playbackCycle=String(loopCount.current);
    const intro=1-smooth(2.4,3.3,t),reveal=smooth(3.9,5.1,t),settle=smooth(5.3,8,t),copy=smooth(6.1,7.6,t);
-   const vars={'--scene-scale':1.04+playhead*.012,'--scene-x':`${Math.sin(playhead*.45)*1.2}%`,'--scene-y':`${Math.sin(playhead*.6)*.7}%`,'--settle':settle,'--intro-alpha':intro*loopFade,'--intro-y':`${-smooth(2.4,3.4,t)*45}px`,'--dna-alpha':(1-smooth(4.1,5.1,t))*loopFade,'--board-alpha':reveal*loopFade,'--board-x':`${-50+settle*49}%`,'--board-y':`${-50+settle*2}%`,'--board-scale':.62+settle*.28,'--board-rx':`${62-settle*39}deg`,'--board-ry':`${-5-settle*17}deg`,'--board-rz':`${-24+settle*6}deg`,'--board-filter':reveal===1?'none':`blur(${(1-reveal)*12}px)`,'--chapter-alpha':copy*loopFade,'--chapter-y':`${(1-copy)*30}px`,'--light-alpha':.25+settle*.75,'--film-progress':`${Math.min(playhead/cycleDuration,1)*100}%`};
+   const vars={'--scene-scale':1.07+Math.sin(playhead*.25)*.025,'--scene-x':`${Math.sin(playhead*.45)*1.2}%`,'--scene-y':`${Math.sin(playhead*.6)*.7}%`,'--settle':settle,'--intro-alpha':intro*loopFade,'--intro-y':`${-smooth(2.4,3.4,t)*45}px`,'--dna-alpha':(1-smooth(4.1,5.1,t))*loopFade,'--board-alpha':reveal*loopFade,'--board-x':`${-50+settle*49}%`,'--board-y':`${-50+settle*2}%`,'--board-scale':.62+settle*.28,'--board-rx':`${62-settle*39}deg`,'--board-ry':`${-5-settle*17}deg`,'--board-rz':`${-24+settle*6}deg`,'--board-filter':reveal===1?'none':`blur(${(1-reveal)*12}px)`,'--chapter-alpha':copy*loopFade,'--chapter-y':`${(1-copy)*30}px`,'--light-alpha':.25+settle*.75,'--film-progress':`${Math.min(playhead/cycleDuration,1)*100}%`};
    for(const[key,value]of Object.entries(vars))root.current.style.setProperty(key,value);
    cards.current.forEach((card,i)=>{if(!card)return;const arrive=smooth(4.15+i*.12,5.7+i*.12,t);card.style.setProperty('--card-rise',`${24+(1-arrive)*230}px`);card.style.setProperty('--card-alpha',arrive);card.style.setProperty('--card-tilt',`${(1-arrive)*-20}deg`)});
    const current=t<2.7?'intro':t<7.7?'transition':'contents';if(current!==lastPhase.current){lastPhase.current=current;setPhase(current)}
 
  }
- useEffect(()=>{const mq=matchMedia('(prefers-reduced-motion: reduce)');function preference(){setReduced(mq.matches);if(mq.matches){time.current=duration;frame(duration);setReady(true)}}mq.addEventListener('change',preference);frame(time.current);return()=>mq.removeEventListener('change',preference)},[]);
+ useEffect(()=>{const mq=matchMedia('(prefers-reduced-motion: reduce)');function preference(){setReduced(mq.matches);if(mq.matches){released.current=true;time.current=duration;frame(duration);setReady(true)}}mq.addEventListener('change',preference);frame(time.current);return()=>mq.removeEventListener('change',preference)},[]);
  useEffect(()=>{const observer=new IntersectionObserver(([e])=>setVisible(e.isIntersecting),{threshold:.18});observer.observe(root.current);const visibility=()=>setPageVisible(!document.hidden);document.addEventListener('visibilitychange',visibility);return()=>{observer.disconnect();document.removeEventListener('visibilitychange',visibility)}},[]);
  useEffect(()=>{frame(time.current);if(!ready||!visible||!pageVisible||paused||reduced)return;let id,last=0;function tick(now){if(last){time.current+=Math.min((now-last)/1000,.06);if(time.current>=cycleDuration){time.current%=cycleDuration;loopCount.current++}}last=now;frame(time.current);id=requestAnimationFrame(tick)}id=requestAnimationFrame(tick);return()=>cancelAnimationFrame(id)},[ready,visible,pageVisible,paused,reduced,revision]);
- function unfold(){time.current=reduced?duration:Math.max(time.current,6.7);setPaused(false);frame(time.current);setRevision(n=>n+1)}
- function skip(){time.current=duration;frame(duration);setRevision(n=>n+1)}
+ function unfold(){released.current=true;time.current=reduced?duration:Math.max(time.current,6.7);setPaused(false);frame(time.current);setRevision(n=>n+1)}
+ function skip(){released.current=true;time.current=duration;frame(duration);setRevision(n=>n+1)}
  return <section id="home" ref={root} className={'cinematic-hero crystal-hero'+(reduced?' is-reduced':'')} data-phase={phase} aria-label="DNA 开场与全书目录预览">
   <div className="cinema-grain" aria-hidden="true"/><div className="cinema-daylight" aria-hidden="true"/><div className="cinema-grid" aria-hidden="true"/>
   <div className="cinema-topline"><span><i/> AN EXPLORATION OF LIFE</span><span>RICHARD DAWKINS / 40TH ANNIVERSARY</span></div>
