@@ -11,37 +11,34 @@ const chapterCards=[
  {n:'05',id:'ch05',title:'进犯行为',full:'进犯行为：稳定性和自私的机器',en:'AGGRESSION & STABILITY',tag:'策略之间的博弈',image:'microscope',tone:'honey'},
  {n:'06',id:'ch06',title:'基因种族',en:'GENESMANSHIP',tag:'合作与亲缘关系',image:'dna',tone:'orange'},
 ];
-const duration=8.4,cycleDuration=15,fadeStart=14.4;
+const duration=12.4,cycleDuration=19,fadeStart=18.4;
 const smooth=(start,end,value)=>{const x=Math.min(1,Math.max(0,(value-start)/(end-start)));return x*x*(3-2*x)};
 
 export default function CinematicHero(){
  const reducedInitial=useRef(matchMedia('(prefers-reduced-motion: reduce)').matches);
- const [reduced,setReduced]=useState(reducedInitial.current),[paused,setPaused]=useState(false),[visible,setVisible]=useState(false),[pageVisible,setPageVisible]=useState(!document.hidden),[ready,setReady]=useState(reducedInitial.current),[webgl,setWebgl]=useState(false),[phase,setPhase]=useState(reducedInitial.current?'contents':'intro'),[revision,setRevision]=useState(0);
- const root=useRef(null),canvas=useRef(null),dna=useRef(null),time=useRef(reducedInitial.current?duration:0),lastPhase=useRef(phase),loopCount=useRef(0),board=useRef(null),cards=useRef([]);
+ const [reduced,setReduced]=useState(reducedInitial.current),[paused,setPaused]=useState(false),[visible,setVisible]=useState(false),[pageVisible,setPageVisible]=useState(!document.hidden),[ready,setReady]=useState(reducedInitial.current),[phase,setPhase]=useState(reducedInitial.current?'contents':'intro'),[revision,setRevision]=useState(0);
+ const root=useRef(null),time=useRef(reducedInitial.current?duration:0),lastPhase=useRef(phase),loopCount=useRef(0),board=useRef(null),cards=useRef([]);
  function frame(playhead){
    if(!root.current)return;
-   const t=Math.min(playhead,duration),loopFade=reduced?1:smooth(0,.6,playhead)*(1-smooth(fadeStart,cycleDuration,playhead));
+   const t=Math.min(Math.max(0,playhead-4),8.4),loopFade=reduced?1:smooth(0,.6,playhead)*(1-smooth(fadeStart,cycleDuration,playhead));
    root.current.dataset.playbackCycle=String(loopCount.current);
    const intro=1-smooth(2.4,3.3,t),reveal=smooth(3.9,5.1,t),settle=smooth(5.3,8,t),copy=smooth(6.1,7.6,t);
-   const vars={'--settle':settle,'--intro-alpha':intro*loopFade,'--intro-y':`${-smooth(2.4,3.4,t)*45}px`,'--dna-alpha':(1-smooth(4.1,5.1,t))*loopFade,'--board-alpha':reveal*loopFade,'--board-x':`${-50+settle*49}%`,'--board-y':`${-50+settle*2}%`,'--board-scale':.62+settle*.28,'--board-rx':`${62-settle*39}deg`,'--board-ry':`${-5-settle*17}deg`,'--board-rz':`${-24+settle*6}deg`,'--board-filter':reveal===1?'none':`blur(${(1-reveal)*12}px)`,'--chapter-alpha':copy*loopFade,'--chapter-y':`${(1-copy)*30}px`,'--light-alpha':.25+settle*.75,'--film-progress':`${Math.min(playhead/cycleDuration,1)*100}%`};
+   const vars={'--scene-scale':1.04+playhead*.012,'--scene-x':`${Math.sin(playhead*.45)*1.2}%`,'--scene-y':`${Math.sin(playhead*.6)*.7}%`,'--settle':settle,'--intro-alpha':intro*loopFade,'--intro-y':`${-smooth(2.4,3.4,t)*45}px`,'--dna-alpha':(1-smooth(4.1,5.1,t))*loopFade,'--board-alpha':reveal*loopFade,'--board-x':`${-50+settle*49}%`,'--board-y':`${-50+settle*2}%`,'--board-scale':.62+settle*.28,'--board-rx':`${62-settle*39}deg`,'--board-ry':`${-5-settle*17}deg`,'--board-rz':`${-24+settle*6}deg`,'--board-filter':reveal===1?'none':`blur(${(1-reveal)*12}px)`,'--chapter-alpha':copy*loopFade,'--chapter-y':`${(1-copy)*30}px`,'--light-alpha':.25+settle*.75,'--film-progress':`${Math.min(playhead/cycleDuration,1)*100}%`};
    for(const[key,value]of Object.entries(vars))root.current.style.setProperty(key,value);
    cards.current.forEach((card,i)=>{if(!card)return;const arrive=smooth(4.15+i*.12,5.7+i*.12,t);card.style.setProperty('--card-rise',`${24+(1-arrive)*230}px`);card.style.setProperty('--card-alpha',arrive);card.style.setProperty('--card-tilt',`${(1-arrive)*-20}deg`)});
    const current=t<2.7?'intro':t<7.7?'transition':'contents';if(current!==lastPhase.current){lastPhase.current=current;setPhase(current)}
-   if(t<5.2)dna.current?.render(t);
+
  }
- useEffect(()=>{let active=true;const mq=matchMedia('(prefers-reduced-motion: reduce)');function preference(){setReduced(mq.matches);if(mq.matches){time.current=duration;frame(duration);setReady(true)}}mq.addEventListener('change',preference);
-   if(!reducedInitial.current)import('./HeroDNA').then(({createHeroDNA})=>{if(!active)return;try{dna.current=createHeroDNA(canvas.current,()=>setWebgl(false));dna.current.render(time.current);setWebgl(true)}catch{setWebgl(false)}setReady(true)}).catch(()=>active&&setReady(true));
-   frame(time.current);return()=>{active=false;mq.removeEventListener('change',preference);dna.current?.dispose()}
- },[]);
+ useEffect(()=>{const mq=matchMedia('(prefers-reduced-motion: reduce)');function preference(){setReduced(mq.matches);if(mq.matches){time.current=duration;frame(duration);setReady(true)}}mq.addEventListener('change',preference);frame(time.current);return()=>mq.removeEventListener('change',preference)},[]);
  useEffect(()=>{const observer=new IntersectionObserver(([e])=>setVisible(e.isIntersecting),{threshold:.18});observer.observe(root.current);const visibility=()=>setPageVisible(!document.hidden);document.addEventListener('visibilitychange',visibility);return()=>{observer.disconnect();document.removeEventListener('visibilitychange',visibility)}},[]);
  useEffect(()=>{frame(time.current);if(!ready||!visible||!pageVisible||paused||reduced)return;let id,last=0;function tick(now){if(last){time.current+=Math.min((now-last)/1000,.06);if(time.current>=cycleDuration){time.current%=cycleDuration;loopCount.current++}}last=now;frame(time.current);id=requestAnimationFrame(tick)}id=requestAnimationFrame(tick);return()=>cancelAnimationFrame(id)},[ready,visible,pageVisible,paused,reduced,revision]);
- function unfold(){time.current=reduced?duration:Math.max(time.current,2.7);setPaused(false);frame(time.current);setRevision(n=>n+1)}
+ function unfold(){time.current=reduced?duration:Math.max(time.current,6.7);setPaused(false);frame(time.current);setRevision(n=>n+1)}
  function skip(){time.current=duration;frame(duration);setRevision(n=>n+1)}
- return <section id="home" ref={root} className={'cinematic-hero '+(webgl?'has-webgl':'')+(reduced?' is-reduced':'')} data-phase={phase} aria-label="DNA 开场与全书目录预览">
+ return <section id="home" ref={root} className={'cinematic-hero crystal-hero'+(reduced?' is-reduced':'')} data-phase={phase} aria-label="DNA 开场与全书目录预览">
   <div className="cinema-grain" aria-hidden="true"/><div className="cinema-daylight" aria-hidden="true"/><div className="cinema-grid" aria-hidden="true"/>
   <div className="cinema-topline"><span><i/> AN EXPLORATION OF LIFE</span><span>RICHARD DAWKINS / 40TH ANNIVERSARY</span></div>
   <div className="cinema-intro" inert={phase!=='intro'}><div><span className="cinema-eyebrow">THE STORY WRITTEN WITHIN US.</span><InteractiveHeading as="h1" label="The selfish gene." enabled={phase==='intro'} lines={['The selfish',{text:'gene.',fontFamily:'Georgia, serif',fontStyle:'italic',fontWeight:400,color:'#4486d0'}]}/></div><p>生命，以信息的形式延续。<br/><span>一次关于自私、合作与演化的视觉探索。<br/>从一条双螺旋，走进一整本书。</span></p></div>
-  <div className="cinema-dna-shadow" aria-hidden="true"/><div className="cinema-dna" aria-hidden="true"><img className="cinema-dna-fallback" src={assetUrl('biology-blue/dna.png')} alt=""/><canvas ref={canvas}/></div>
+  <div className="cinema-clear-scene" aria-hidden="true"><img src={assetUrl('biology-blue/clear-molecular-hero.png')} alt="" fetchPriority="high" onLoad={()=>setReady(true)} onError={()=>setReady(true)}/><div className="crystal-glint"/></div>
   <div className="cinema-sequence-labels" aria-hidden="true"><span>01—A</span><span>02—T</span><span>03—C</span><span>04—G</span></div>
   <div className="cinema-entry" inert={phase!=='intro'}><p>换一个尺度，重新看待生命。</p><button onClick={unfold}>跟随 DNA，展开目录 <span>↗</span></button></div>
   <div className="cinema-chapter-copy" inert={phase!=='contents'}><span className="cinema-eyebrow">ONE BOOK. FIFTEEN NEW PERSPECTIVES.</span><InteractiveHeading className="cinema-editorial-title" label="A different view of life." enabled={phase==='contents'} lines={['A different',{text:'view of life.',highlight:'life.',highlightColor:'#4b78ab'}]}/><p>从复制因子的诞生，到合作的演化。<br/>先从六个章节入口，开启你的阅读。</p><a href="#reading/ch01/guide" className="cinema-read">开始第一章 <span>↗</span></a><a href="#reading" className="cinema-all">展开全书 15 章目录 <span>→</span></a></div>

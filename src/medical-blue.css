@@ -15,3 +15,11 @@ header .brand{font-family:'Avenir Next','Helvetica Neue',sans-serif;font-size:20
 
 /* Clear, colorless glass DNA, composited over the pale hero atmosphere. */
 .cinema-dna canvas{mix-blend-mode:normal}.cinema-dna-shadow{opacity:.16;filter:blur(25px)}
+
+/* Reference-matched clear shell, luminous blue contents, and macro optical depth. */
+.cinema-clear-scene{position:absolute;left:43%;right:3%;top:11%;bottom:17%;border-radius:22px;overflow:hidden;z-index:3;opacity:var(--dna-alpha);pointer-events:none;background:#a9c5e0;box-shadow:inset 0 0 0 1px #fff9,0 18px 50px -35px #24598577}
+.cinema-clear-scene>img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% center;transform:translate(var(--scene-x,0),var(--scene-y,0)) scale(var(--scene-scale,1.04));will-change:transform}
+.crystal-glint{position:absolute;inset:0;background:linear-gradient(115deg,transparent 25%,#fff2 48%,transparent 65%);mix-blend-mode:screen;opacity:.3}
+.crystal-hero .cinema-intro{right:60%;display:block;z-index:4;top:17%}.crystal-hero .cinema-intro h1{font-size:clamp(40px,4.2vw,68px)}.crystal-hero .cinema-intro>p{margin-top:34px;font-size:13px;line-height:2}.crystal-hero .cinema-intro>p span{font-size:11px}.crystal-hero .cinema-entry{left:6%;right:auto;bottom:19%;transform:none;max-width:34%}.crystal-hero .cinema-entry p{font-size:11px}.crystal-hero .cinema-entry button{font-size:12px;padding:16px 24px}.crystal-hero .cinema-sequence-labels{display:none}
+@media(max-width:900px){.crystal-hero .cinema-intro{top:12%;right:6%;display:flex;gap:20px}.crystal-hero .cinema-intro h1{font-size:44px}.crystal-hero .cinema-intro>p{margin-top:20px;font-size:11px}.cinema-clear-scene{left:5%;right:5%;top:37%;bottom:20%;border-radius:17px}.crystal-hero .cinema-entry{left:0;right:0;bottom:9%;max-width:none;text-align:center}.crystal-hero .cinema-entry p{display:none}.crystal-hero .cinema-entry button{font-size:11px;padding:13px 22px}}
+@media(max-width:600px){.crystal-hero .cinema-intro{display:block;top:11%}.crystal-hero .cinema-intro h1{font-size:38px}.crystal-hero .cinema-intro>p{margin-top:15px;max-width:none;font-size:11px}.crystal-hero .cinema-intro>p span{font-size:9px;line-height:1.7}.cinema-clear-scene{top:41%;bottom:20%;left:4%;right:4%}.cinema-clear-scene>img{object-position:65% center}.crystal-hero .cinema-entry{bottom:10%}}
