@@ -15,13 +15,13 @@ export function createHeroDNA(canvas,onContextLost){
   const camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.set(0,0,17);
   const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();
   const environment=pmrem.fromScene(room,.04);scene.environment=environment.texture;room.dispose();pmrem.dispose();
-  scene.add(new THREE.HemisphereLight(0xfffaf1,0x9a6843,.8));
-  const key=new THREE.DirectionalLight(0xfff9ed,2.2);key.position.set(-4,5,6);scene.add(key);
-  const rim=new THREE.DirectionalLight(0xffd491,2);rim.position.set(6,1,-3);scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xf1faff,0x437c9a,.8));
+  const key=new THREE.DirectionalLight(0xedf9ff,2.2);key.position.set(-4,5,6);scene.add(key);
+  const rim=new THREE.DirectionalLight(0x91d4ff,2);rim.position.set(6,1,-3);scene.add(rim);
   const group=new THREE.Group();scene.add(group);
-  const amber=new THREE.MeshPhysicalMaterial({color:0xe97a14,metalness:.28,roughness:.18,transmission:.12,thickness:.55,ior:1.46,clearcoat:1,clearcoatRoughness:.12,envMapIntensity:1.5});
-  const pearl=new THREE.MeshPhysicalMaterial({color:0xfff0cc,metalness:.14,roughness:.22,clearcoat:1,clearcoatRoughness:.12,envMapIntensity:1.4});
-  const gold=new THREE.MeshPhysicalMaterial({color:0xe8a13d,metalness:.28,roughness:.21,clearcoat:1});
+  const amber=new THREE.MeshPhysicalMaterial({color:0x3199e5,metalness:.28,roughness:.10,transmission:.62,thickness:.55,ior:1.46,clearcoat:1,clearcoatRoughness:.12,envMapIntensity:1.5});
+  const pearl=new THREE.MeshPhysicalMaterial({color:0xd9f3ff,metalness:.08,transmission:.45,thickness:.4,roughness:.12,clearcoat:1,clearcoatRoughness:.12,envMapIntensity:1.4});
+  const gold=new THREE.MeshPhysicalMaterial({color:0x287dda,metalness:.28,roughness:.21,clearcoat:1});
   const points=(phase,t)=>{const x=(t-.5)*20,angle=t*Math.PI*6.6+phase;return new THREE.Vector3(x,Math.cos(angle)*1.12+Math.sin(x*.3)*.14,Math.sin(angle)*1.12)};
   for(let strand=0;strand<2;strand++){
     const path=new THREE.CatmullRomCurve3(Array.from({length:241},(_,i)=>points(strand*Math.PI,i/240)));

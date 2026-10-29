@@ -3,10 +3,10 @@ import React, {useEffect, useRef, useState} from 'react';
 import './concept-showcase.css';
 
 const scenes = [
-  {id:'dna', label:'遗传信息', word:'Life,\nin code.', title:'生命的文字。', subtitle:'DNA / 遗传信息的载体', description:'一条分子链，如何把生命的信息传向下一代？从 DNA 出发，认识基因与染色体。', terms:['DNA','基因','染色体'], chapters:'CH. 03 / 14', color:'#f5a14c', light:'#ffe5b4', shape:'34% 66% 39% 61% / 40% 35% 65% 60%', alt:'琥珀橙与乳白色的 DNA 双螺旋立体模型'},
-  {id:'tubes', label:'复制与变异', word:'Copy.\nVary. Live.', title:'复制，让故事继续。', subtitle:'REPLICATOR / 从复制到演化', description:'复制不是永远一模一样。可遗传的差异，让自然选择有了发生的可能。', terms:['复制因子','突变','自然选择'], chapters:'CH. 02 / 03 / 15', color:'#edbd43', light:'#fff0b0', shape:'60% 40% 58% 42% / 35% 60% 40% 65%', alt:'装有暖黄色液体的三支透明实验试管'},
-  {id:'cell', label:'生命的载体', word:'Built\nfor life.', title:'微小，却不简单。', subtitle:'SURVIVAL MACHINE / 身体与基因', description:'从细胞到身体，信息通过复杂过程参与构建生命。走近书中“生存机器”的比喻。', terms:['生存机器','体细胞','神经元'], chapters:'CH. 03 / 04 / 13', color:'#ed9874', light:'#ffe0c9', shape:'41% 59% 65% 35% / 63% 42% 58% 37%', alt:'半透明细胞膜包裹橙色细胞核的细胞剖面模型'},
-  {id:'microscope', label:'观察与表达', word:'More than\nmeets the eye.', title:'看见，背后的联系。', subtitle:'PHENOTYPE / 基因的可见效应', description:'性状不只关乎外表。基因、发育与环境相互作用，效应甚至可以延伸到身体之外。', terms:['表型','基因型','延伸的表型'], chapters:'CH. 03 / 13 / 14', color:'#d8ac66', light:'#f8e7c5', shape:'62% 38% 33% 67% / 48% 62% 38% 52%', alt:'乳白色机身与橙色调焦旋钮的立体显微镜'},
+  {id:'dna', label:'遗传信息', word:'Life,\nin code.', title:'生命的文字。', subtitle:'DNA / 遗传信息的载体', description:'一条分子链，如何把生命的信息传向下一代？从 DNA 出发，认识基因与染色体。', terms:['DNA','基因','染色体'], chapters:'CH. 03 / 14', color:'#509cf1', light:'#bad8f9', shape:'34% 66% 39% 61% / 40% 35% 65% 60%', alt:'冰蓝透明玻璃的 DNA 双螺旋立体模型'},
+  {id:'tubes', label:'复制与变异', word:'Copy.\nVary. Live.', title:'复制，让故事继续。', subtitle:'REPLICATOR / 从复制到演化', description:'复制不是永远一模一样。可遗传的差异，让自然选择有了发生的可能。', terms:['复制因子','突变','自然选择'], chapters:'CH. 02 / 03 / 15', color:'#4793e9', light:'#b6d6f9', shape:'60% 40% 58% 42% / 35% 60% 40% 65%', alt:'装有蓝色液体的两支透明实验试管'},
+  {id:'cell', label:'生命的载体', word:'Built\nfor life.', title:'微小，却不简单。', subtitle:'SURVIVAL MACHINE / 身体与基因', description:'从细胞到身体，信息通过复杂过程参与构建生命。走近书中“生存机器”的比喻。', terms:['生存机器','体细胞','神经元'], chapters:'CH. 03 / 04 / 13', color:'#77adea', light:'#cde3fb', shape:'41% 59% 65% 35% / 63% 42% 58% 37%', alt:'半透明细胞膜包裹蓝色细胞核的细胞剖面模型'},
+  {id:'microscope', label:'观察与表达', word:'More than\nmeets the eye.', title:'看见，背后的联系。', subtitle:'PHENOTYPE / 基因的可见效应', description:'性状不只关乎外表。基因、发育与环境相互作用，效应甚至可以延伸到身体之外。', terms:['表型','基因型','延伸的表型'], chapters:'CH. 03 / 13 / 14', color:'#699cd5', light:'#c6ddf7', shape:'62% 38% 33% 67% / 48% 62% 38% 52%', alt:'透明玻璃机身与蓝色调焦旋钮的立体显微镜'},
 ];
 
 function Symbol({name}) {
@@ -33,7 +33,7 @@ export default function ConceptShowcase({openTerm, total, onOpenDictionary, dict
       <div className="bio-shape" aria-hidden="true"/><div className="bio-floor" aria-hidden="true"/>
       <div className="bio-display-word" key={scene.id} aria-hidden="true">{scene.word.split('\n').map(line=><span key={line}>{line}</span>)}</div>
       <div className="bio-object-shadow" aria-hidden="true"/>
-      {scenes.map((item,i)=>{const position=(i-active+scenes.length)%scenes.length;return <div key={item.id} className={`bio-object bio-object-${item.id} position-${position}`} aria-hidden={position!==0}><div className="bio-object-float"><img src={assetUrl(`biology/${item.id}.webp`)} srcSet={`${assetUrl(`biology/${item.id}-small.webp`)} 480w, ${assetUrl(`biology/${item.id}.webp`)} 960w`} sizes="(max-width: 760px) 360px, (max-width: 1100px) 440px, 650px" loading="lazy" alt={position===0?item.alt:''} draggable="false" width="1024" height="1024" decoding="async"/></div></div>})}
+      {scenes.map((item,i)=>{const position=(i-active+scenes.length)%scenes.length;return <div key={item.id} className={`bio-object bio-object-${item.id} position-${position}`} aria-hidden={position!==0}><div className="bio-object-float"><img src={assetUrl(`biology-blue/${item.id}.png`)} loading="lazy" alt={position===0?item.alt:''} draggable="false" width="1024" height="1024" decoding="async"/></div></div>})}
       <div className="bio-specimen-caption"><span>SPECIMEN / 0{active+1}</span><span>{scene.label}</span><i>↗</i></div>
     </div>
     <div className="bio-knowledge">
@@ -41,7 +41,7 @@ export default function ConceptShowcase({openTerm, total, onOpenDictionary, dict
       <div className="bio-copy" key={scene.id} aria-live={running?'off':'polite'} aria-atomic="true"><small>{scene.subtitle}</small><h3>{scene.title}</h3><p>{scene.description}</p></div>
       <div className="bio-term-list" aria-label={`${scene.label}相关术语`}>
         <div className="bio-list-head"><span>EXPLORE THE TERMS</span><span>阅读释义</span></div>
-        {scene.terms.map((term,i)=><button key={term} onClick={()=>openTerm(term)}><span className="bio-term-number">0{i+1}</span><b>{term}</b><span className="bio-term-thumb"><img src={assetUrl(`biology/${scene.id}-small.webp`)} loading="lazy" alt="" width="48" height="48"/></span><span className="bio-term-plus">＋</span></button>)}
+        {scene.terms.map((term,i)=><button key={term} onClick={()=>openTerm(term)}><span className="bio-term-number">0{i+1}</span><b>{term}</b><span className="bio-term-thumb"><img src={assetUrl(`biology-blue/${scene.id}.png`)} loading="lazy" alt="" width="48" height="48"/></span><span className="bio-term-plus">＋</span></button>)}
       </div>
       <div className="bio-source-chapters">FOLLOW THE STORY <span>{scene.chapters}</span></div>
     </div>
